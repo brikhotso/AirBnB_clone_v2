@@ -17,6 +17,7 @@ place_amenity = Table('place_amenity',
                                                 primary_key=True,
                                                 nullable=False))
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
