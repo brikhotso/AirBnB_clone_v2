@@ -10,9 +10,12 @@ import models
 
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = "states"
-    name = Column(String(128), nullable=False)
-    cities = relationship("City",  backref="state", cascade="delete")
+    if models.is_type == "db":
+       __tablename__ = "states"
+       name = Column(String(128), nullable=False)
+       cities = relationship("City",  backref="state", cascade="delete")
+    else:
+        name = ""
 
     if os.getenv("HBNB_TYPE_STORAGE") != "db":
         @property
