@@ -6,7 +6,10 @@ import models
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+if models.is_type == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:
