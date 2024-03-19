@@ -9,11 +9,7 @@ import sqlalchemy
 
 class City(BaseModel, Base):
     """Define City class """
-    if models.is_type == "db":
-        __tablename__ = "cities"
-        name = Column(String(128), nullable=False)
-        state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
-        places = relationship('Place', backref='cities', cascade='all, delete')
-    else:
-        state_id = ""
-        name = ""
+    __tablename__ = "cities"
+    name = Column(String(128), nullable=False)
+    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
+    places = relationship('Place', backref='cities', cascade='all, delete')
