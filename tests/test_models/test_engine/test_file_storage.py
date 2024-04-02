@@ -6,6 +6,7 @@ from models import storage
 import os
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', 'file')
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
@@ -31,11 +32,12 @@ class test_fileStorage(unittest.TestCase):
     def test_new(self):
         """ New object is correctly added to __objects """
         new = BaseModel()
+        new.save()
         for obj in storage.all().values():
             temp = obj
         self.assertTrue(temp is obj)
 
-    def test_all(self):
+    def test_all_cls(self):
         """ __objects is properly returned """
         new = BaseModel()
         temp = storage.all()
@@ -63,6 +65,7 @@ class test_fileStorage(unittest.TestCase):
     def test_reload(self):
         """ Storage file is successfully loaded to __objects """
         new = BaseModel()
+        new.save()
         storage.save()
         storage.reload()
         for obj in storage.all().values():
@@ -97,8 +100,8 @@ class test_fileStorage(unittest.TestCase):
     def test_key_format(self):
         """ Key is properly formatted """
         new = BaseModel()
+        new.save()
         _id = new.to_dict()['id']
-        temp = None
         for key in storage.all().keys():
             temp = key
         self.assertEqual(temp, 'BaseModel' + '.' + _id)
@@ -108,3 +111,10 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete(self):
+        """create object and then delete"""
+        new = BaseModel()
+        new.save()
+        storage.delete(new)
+        self.assertEqual(storage.all(), {})
