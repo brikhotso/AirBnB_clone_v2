@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 import unittest
 import datetime
 from uuid import UUID
@@ -8,6 +8,8 @@ import json
 import os
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                 'basemodel test not supported')
 class test_basemodel(unittest.TestCase):
     """ """
 
@@ -77,8 +79,8 @@ class test_basemodel(unittest.TestCase):
     def test_kwargs_one(self):
         """ """
         n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+        new = self.value(**n)
+        self.assertEqual(new.Name, n['Name'])
 
     def test_id(self):
         """ """
