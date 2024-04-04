@@ -7,10 +7,8 @@ from os.path import exists
 import os
 import time
 
-
 env.user = 'ubuntu'
 env.hosts = ['18.234.105.208', '18.204.10.184']
-
 
 def do_pack():
     """Generate .tgz archive from web_static folder"""
@@ -27,7 +25,6 @@ def do_pack():
         return "versions/{}".format(archive_name)
     else:
         return None
-
 
 def do_deploy(archive_path):
     """
@@ -74,7 +71,6 @@ def do_deploy(archive_path):
 
     print("New version deployed!")
     return True
-
 
 def deploy():
     """Create and distribute an archive to a web server."""
