@@ -34,6 +34,16 @@ def do_deploy(archive_path):
     if delete_archive_result.failed:
         return False
 
+    move_files_result = run(
+        'mv {}/web_static/* {}'.format(folder_name, folder_name))
+    if move_files_result.failed:
+        return False
+
+    delete_web_static_folder_result = run(
+        'rm -rf {}/web_static'.format(folder_name))
+    if delete_web_static_folder_result.failed:
+        return False
+
     delete_link_result = run('rm -rf /data/web_static/current')
     if delete_link_result.failed:
         return False
@@ -43,4 +53,5 @@ def do_deploy(archive_path):
     if create_link_result.failed:
         return False
 
+    print("New version deployed!")
     return True
