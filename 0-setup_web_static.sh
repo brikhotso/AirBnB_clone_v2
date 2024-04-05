@@ -23,11 +23,11 @@ printf %s "server {
     listen [::]:80 default_server;
     add_header X-Served-By $HOSTNAME;
     root   /var/www/html;
-    index  index.html index.htm;
+    index  index.html;
 
     location /hbnb_static {
         alias /data/web_static/current;
-        index index.html index.htm;
+        index index.html;
     }
 
     location /redirect_me {
