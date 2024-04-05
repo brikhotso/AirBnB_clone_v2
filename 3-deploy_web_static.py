@@ -1,17 +1,17 @@
 #!/usr/bin/python3
-""" Create and distribute an archive to a web server """
+""" Script to create and distribute an archive to a web server """
 
 import os
-from fabric.api import local
+from fabric.api import local, env, run, put
 import time
-from fabric.api import env, run, put
 from os.path import exists
 
+# Define remote hosts
 env.hosts = ['18.234.105.208', '18.204.10.184']
 
 
 def do_pack():
-    """Generate .tgz archive from web_static folder"""
+    """ Generate .tgz archive from web_static folder """
     if not os.path.exists("versions"):
         os.makedirs("versions")
 
@@ -28,9 +28,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """
-    Distributes an archive to web servers.
-    """
+    """ Distribute an archive to web servers """
     if not exists(archive_path):
         return False
 
@@ -75,8 +73,8 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    """Create and distribute an archive to a web server."""
-    archive_filename = do_pack()
-    if archive_filename is None:
+    """ Create and distribute an archive to a web server """
+    archive_path = do_pack()
+    if archive_path is None:
         return False
-    return do_deploy(archive_filename)
+    return deploy_archive(archive_path)
