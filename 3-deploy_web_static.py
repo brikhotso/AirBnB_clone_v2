@@ -1,13 +1,12 @@
 #!/usr/bin/python3
-"""
-Create and distribute an archive to a web server
-"""
-from fabric.api import env, run, put, local
-from os.path import exists
-import os
-import time
+""" Create and distribute an archive to a web server """
 
-env.user = 'ubuntu'
+import os
+from fabric.api import local
+import time
+from fabric.api import env, run, put
+from os.path import exists
+
 env.hosts = ['18.234.105.208', '18.204.10.184']
 
 
@@ -77,7 +76,7 @@ def do_deploy(archive_path):
 
 def deploy():
     """Create and distribute an archive to a web server."""
-    archive_path = do_pack()
-    if archive_path is None:
+    archive_filename = do_pack()
+    if archive_filename is None:
         return False
-    return do_deploy(archive_path)
+    return do_deploy(archive_filename)
