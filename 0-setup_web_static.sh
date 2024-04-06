@@ -1,27 +1,42 @@
 #!/usr/bin/env bash
 # sets up your web servers for the deployment of web_static
 
-apt-get update
-apt-get install -y nginx
+# Update package index and install nginx
+sudo apt-get update
+sudo apt-get install -y nginx
 
+# Create necessary directories
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
-echo "<html>
+
+# Fake HTML content
+fake_html_content="<html>
   <head>
+    <title>My_index</title>
   </head>
   <body>
-    Holberton School
+    <h1>Hello, this is a fake HTML page!</h1>
   </body>
-</html>" > /data/web_static/releases/test/index.html
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+</html>"
 
-chown -R ubuntu /data/
-chgrp -R ubuntu /data/
+# Create fake HTML file
+echo "$fake_html_content" > /data/web_static/releases/test/index.html
 
-printf %s "server {
+# Remove symbolic link if exists and recreate
+if [ -L "/data/web_static/current" ]; then
+    rm /data/web_static/current
+fi
+ln -s /data/web_static/releases/test/ /data/web_static/current
+
+# Change ownership and group of /data directory
+chown -R ubuntu:ubuntu /data/
+
+# Update Nginx configuration
+cat >/etc/nginx/sites-available/default <<EOF
+server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    add_header X-Served-By $HOSTNAME;
+    add_header X-Served-By \$HOSTNAME;
     root   /var/www/html;
     index  index.html;
 
@@ -39,6 +54,8 @@ printf %s "server {
       root /var/www/html;
       internal;
     }
-}" > /etc/nginx/sites-available/default
+}
+EOF
 
-service nginx restart
+# Restart Nginx service
+sudo service nginx restart
