@@ -6,7 +6,7 @@ from fabric.api import local, env, run, put
 import time
 from os.path import exists
 
-# Define remote hosts
+
 env.hosts = ['18.234.105.208', '18.204.10.184']
 
 
@@ -77,4 +77,4 @@ def deploy():
     archive_path = do_pack()
     if archive_path is None:
         return False
-    return deploy_archive(archive_path)
+    return do_deploy(archive_path)
