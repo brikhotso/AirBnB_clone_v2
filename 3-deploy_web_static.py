@@ -68,6 +68,11 @@ def do_deploy(archive_path):
     if create_link_result.failed:
         return False
 
+    create_index_result = run(
+        'echo "<html><head></head><body>Hello Holberton!</body></html>" > {}/my_index.html'.format(folder_name))
+    if create_index_result.failed:
+        return False
+
     print("New version deployed!")
     return True
 
@@ -78,3 +83,7 @@ def deploy():
     if archive_path is None:
         return False
     return do_deploy(archive_path)
+
+
+if __name__ == "__main__":
+    deploy()
