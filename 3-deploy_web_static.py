@@ -4,25 +4,25 @@
 from fabric.api import local, env, put, run
 from time import strftime
 import os.path
+
+
 env.hosts = ['18.234.105.208', '18.204.10.184']
 
 
 def do_pack():
-    """generate .tgz archive of web_static/ folder"""
+    """ Generate .tgz archive from web_static folder """
     timenow = strftime("%Y%M%d%H%M%S")
     try:
         local("mkdir -p versions")
         filename = "versions/web_static_{}.tgz".format(timenow)
         local("tar -cvzf {} web_static/".format(filename))
         return filename
-    except:
+    except Exception as e:
         return None
 
 
 def do_deploy(archive_path):
-    """
-    Deploy archive to web server
-    """
+    """ Distribute an archive to web servers """
     if os.path.isfile(archive_path) is False:
         return False
     try:
@@ -39,11 +39,12 @@ def do_deploy(archive_path):
         run("rm -rf {}".format(symlink))
         run("ln -s {} {}".format(path_no_ext, symlink))
         return True
-    except:
+    except Exception as e:
         return False
 
 
 def deploy():
+    """ Create and distribute an archive to a web server """
     archive_path = do_pack()
     if archive_path is None:
         return False
