@@ -90,4 +90,4 @@ The console also supports an alternative syntax using class methods:
 (hbnb) User.update("98bea5de-9cb0-4d78-8a9d-c4de03521c30", name="Fred the Frog")
 ```
 
-This guide provides a basic understanding of the AirBnB clone console's functionalities. Refer to the codebase for further details and class-specific information.
+This guide provides a basic understanding of the AirBnB clone console's functionalities. Refer to the codebase for further details and class-specific information.testing repo
