@@ -1,26 +1,24 @@
 #!/usr/bin/python3
-"""List all states Module"""
-
+""" A script that starts a flask web application"""
 from models import storage
 from models.state import State
 from flask import Flask, render_template
-
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 
-@app.route('/states_list')
+@app.route('/states_list', strict_slashes=False)
 def states_list():
-    """display a HTML the States"""
-    all_states = list(storage.all(State).values())
-    return (render_template('7-states_list.html', all_states=all_states))
+    """ displays a HTML page with a list of states """
+    states = storage.all(State)
+    return render_template('7-states_list.html')
 
 
 @app.teardown_appcontext
-def teardown(exception):
-    """function that call close methofd"""
+def close_db(error):
+    """ Remove the current SQLAlchemy Session """
     storage.close()
 
-
-if __name__ == '__main__':
+    
+if __name__ == "__main__":
+    """ Main Function """
     app.run(host='0.0.0.0', port=5000)
