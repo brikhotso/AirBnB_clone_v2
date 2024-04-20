@@ -10,7 +10,7 @@ Routes:
         /c/<text>: display "C (text)"
         /python/(<text>): display "Python (text)"
         /number/<n>: display "n is a number" if n is an integer
-        /number_template/<n>: display a HTML page only if n is an integer        
+        /number_template/<n>: display a HTML page only if n is an integer
 """
 
 from flask import Flask, render_template
