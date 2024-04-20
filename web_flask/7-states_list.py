@@ -17,7 +17,7 @@ def states_list():
 
 
 @app.teardown_appcontext
-def teardown(self):
+def teardown(exception):
     """function that call close methofd"""
     storage.close()
 
