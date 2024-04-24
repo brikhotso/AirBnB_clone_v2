@@ -5,20 +5,22 @@ The application listens on 0.0.0.0, port 5000.
 Routes:
     /hbnb_filters: HBnB HTML filters page.
 """
+from flask import Flask, render_template
 from models import storage
-from flask import Flask
-from flask import render_template
+from models.amenity import Amenity
+from models.state import State
 
 app = Flask(__name__)
 
 
 @app.route("/hbnb_filters", strict_slashes=False)
-def hbnb_filters():
-    """Displays the main HBnB filters HTML page."""
-    states = storage.all("State")
-    amenities = storage.all("Amenity")
-    return render_template("10-hbnb_filters.html",
-                           states=states, amenities=amenities)
+def state_cities_list():
+    """ Get states sorted by names and render on template """
+    states_data = list(storage.all(State).values())
+    amenity_data = list(storage.all(Amenity).values())
+    return render_template('10-hbnb_filters.html',
+                           states=states_data,
+                           amenities=amenity_data)
 
 
 @app.teardown_appcontext
